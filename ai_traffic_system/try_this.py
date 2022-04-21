@@ -4,10 +4,11 @@ import threading
 import pygame
 import sys
 
+
 # Default values of signal timers
 defaultGreen = {0: 10, 1: 10, 2: 10, 3: 10}
-defaultRed = 92
-defaultYellow = 5
+defaultRed = 140
+defaultYellow = 4
 
 signals = []
 noOfSignals = 4
@@ -18,23 +19,23 @@ nextGreen = (
 currentYellow = 0  # Indicates whether yellow signal is on or off
 
 speeds = {
-    "car": 2,
+    "car": 8,
     "bus": 1.5,
     "truck": 1.3,
-    "bike": 3,
+    "bike": 9,
 }  # average speeds of vehicles
 
 # Coordinates of vehicles' start
 x = {
     "right": [0, 0, 0],
-    "down": [755, 727, 697],
+    "down": [542, 563, 637],
     "left": [1400, 1400, 1400],
-    "up": [602, 627, 657],
+    "up": [680, 723, 819],
 }
 y = {
-    "right": [348, 370, 398],
+    "right": [380, 410, 465],
     "down": [0, 0, 0],
-    "left": [498, 466, 436],
+    "left": [258, 315, 365],
     "up": [800, 800, 800],
 }
 
@@ -48,12 +49,12 @@ vehicleTypes = {0: "car", 1: "bus", 2: "truck", 3: "bike"}
 directionNumbers = {0: "right", 1: "down", 2: "left", 3: "up"}
 
 # Coordinates of signal image, timer, and vehicle count
-signalCoods = [(520, 240), (810, 240), (810, 570), (530, 570)]
+signalCoods = [(400, 430), (690, 110), (970, 305), (690, 610)]
 signalTimerCoods = [(530, 210), (810, 210), (810, 550), (530, 550)]
 
 # Coordinates of stop lines
-stopLines = {"right": 590, "down": 330, "left": 800, "up": 535}
-defaultStop = {"right": 580, "down": 320, "left": 810, "up": 545}
+stopLines = {"right": 350, "down": 197, "left": 1050, "up": 603}
+defaultStop = {"right": 340, "down": 187, "left": 1060, "up": 610}
 
 # Gap between vehicles
 stoppingGap = 25  # stopping gap
@@ -74,11 +75,13 @@ vehiclesNotTurned = {
     "left": {1: [], 2: []},
     "up": {1: [], 2: []},
 }
+
 rotationAngle = 3
+
 mid = {
-    "right": {"x": 705, "y": 445},
-    "down": {"x": 695, "y": 450},
-    "left": {"x": 695, "y": 425},
+    "right": {"x": 560, "y": 465},
+    "down": {"x": 560, "y": 310},
+    "left": {"x": 860, "y": 310},
     "up": {"x": 695, "y": 400},
 }
 # set random or default green signal time here
@@ -115,7 +118,7 @@ class Vehicle(pygame.sprite.Sprite):
         vehicles[direction][lane].append(self)
         self.index = len(vehicles[direction][lane]) - 1
         self.crossedIndex = 0
-        path = "images/" + direction + "/" + vehicleClass + ".png"
+        path = "ai_traffic_system/images/" + direction + "/" + vehicleClass + ".png"
         self.originalImage = pygame.image.load(path)
         self.image = pygame.image.load(path)
 
@@ -161,6 +164,7 @@ class Vehicle(pygame.sprite.Sprite):
         screen.blit(self.image, (self.x, self.y))
 
     def move(self):
+
         if self.direction == "right":
             if (
                 self.crossed == 0
@@ -178,7 +182,7 @@ class Vehicle(pygame.sprite.Sprite):
                     if (
                         self.crossed == 0
                         or self.x + self.image.get_rect().width
-                        < stopLines[self.direction] + 40
+                        < stopLines[self.direction] + 365
                     ):
                         if (
                             self.x + self.image.get_rect().width <= self.stop
@@ -317,7 +321,7 @@ class Vehicle(pygame.sprite.Sprite):
                     if (
                         self.crossed == 0
                         or self.y + self.image.get_rect().height
-                        < stopLines[self.direction] + 50
+                        < stopLines[self.direction] + 210
                     ):
                         if (
                             self.y + self.image.get_rect().height <= self.stop
@@ -450,7 +454,7 @@ class Vehicle(pygame.sprite.Sprite):
                     )
             if self.willTurn == 1:
                 if self.lane == 1:
-                    if self.crossed == 0 or self.x > stopLines[self.direction] - 70:
+                    if self.crossed == 0 or self.x > stopLines[self.direction] - 440:
                         if (
                             self.x >= self.stop
                             or (currentGreen == 2 and currentYellow == 0)
@@ -817,11 +821,11 @@ def generateVehicles():
 
         if lane_number == 1:
             temp = random.randint(0, 99)
-            if temp < 40:
+            if temp < 35:
                 will_turn = 1
         elif lane_number == 2:
             temp = random.randint(0, 99)
-            if temp < 40:
+            if temp < 35:
                 will_turn = 1
         temp = random.randint(0, 99)
         direction_number = 0
@@ -841,6 +845,10 @@ def generateVehicles():
             directionNumbers[direction_number],
             will_turn,
         )
+        # y5=Vehicle
+        # y4 = []
+        # y4.append(y5)
+        # print(y4)
         time.sleep(1)
 
 
@@ -867,15 +875,16 @@ class Main:
     screenSize = (screenWidth, screenHeight)
 
     # Setting background image i.e. image of intersection
-    background = pygame.image.load("images/intersection2.png")
-    # background = pygame.transform.scale(background, (1400, 800))
+    background = pygame.image.load("ai_traffic_system/images/intersection2.png")
+    # background = pygame.transform.scale(background, (1600, 920))
+    # background = pygame.transform.scale(background, (1400, 800)) OR Resize with google`s help
     screen = pygame.display.set_mode(screenSize)
     pygame.display.set_caption("SIMULATION")
 
     # Loading signal images and font
-    redSignal = pygame.image.load("images/signals/red.png")
-    yellowSignal = pygame.image.load("images/signals/yellow.png")
-    greenSignal = pygame.image.load("images/signals/green.png")
+    redSignal = pygame.image.load("ai_traffic_system/images/signals/red.png")
+    yellowSignal = pygame.image.load("ai_traffic_system/images/signals/yellow.png")
+    greenSignal = pygame.image.load("ai_traffic_system/images/signals/green.png")
     font = pygame.font.Font(None, 30)
     thread2 = threading.Thread(
         name="generateVehicles", target=generateVehicles, args=()
@@ -902,11 +911,11 @@ class Main:
             else:
                 signals[i].signalText = signals[i].red
                 screen.blit(redSignal, signalCoods[i])
-                # if signals[i].red <= 10:
-                #     signals[i].signalText = signals[i].red
-                # else:
-                #     signals[i].signalText = "---"
-                # screen.blit(redSignal, signalCoods[i])
+                if signals[i].red <= 10:
+                    signals[i].signalText = signals[i].red
+                else:
+                    signals[i].signalText = "---"
+                screen.blit(redSignal, signalCoods[i])
         signalTexts = ["", "", "", ""]
 
         # display signal timer
