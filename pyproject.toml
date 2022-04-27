@@ -6,6 +6,7 @@ authors = ["Ammaro173 <ammaraf97@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+joblib = "^1.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

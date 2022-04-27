@@ -1,0 +1,10 @@
+{
+	"prettier.printWidth": 140,
+	"python.formatting.provider": "black",
+	"editor.wordWrap": "wordWrapColumn",
+	"files.trimFinalNewlines": false,
+	"editor.guides.bracketPairs": "active",
+	"[python]": {
+		"editor.cursorBlinking": "expand"
+	}
+}
