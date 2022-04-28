@@ -28,6 +28,12 @@ In this project we are going to Design a dynamic AI Traffic light system (using 
 
 ## Documentation
 
+- [YouTubeVideo](https://www.youtube.com/watch?v=fwO9oT7EuJY&list=LL&index=3&t=3s)
+
+- [PyGame Docs Techinacl Data](https://ayat.hashnode.dev/step-by-step-guide-to-simulate-a-signalized-intersection-by-python)
+
+- [Machine Learning Model Docs](https://dialabk.hashnode.dev/ai-traffic-system-with-python#comments-list)
+
 ## installation
 
 step 1 Using SSH:
@@ -63,7 +69,7 @@ Libraries used:
 
 ## Change Log
 
-version 0.1.0 , initialized in 19-4-2022 , Deployed on 27-4-2022
+version 0.1.0 , initialized in 19-4-2022 , Deployed on 27-4-2022 and Ready To Use
 
 ---
 
